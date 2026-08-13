@@ -3,6 +3,7 @@
  * الصفحة هنا فصل، والتنقل بينها فعل قراءة؛ لا نضيف زخرفة لا تخدم الحكاية.
  */
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "wouter";
 import {
   ArrowLeft,
   ArrowRight,
@@ -144,7 +145,8 @@ const faqs = [
 ];
 
 const pageTitles = ["الغلاف", "الفكرة", "الوعد", "المسارات", "الحملة الرقمية", "خطة 8 أسابيع", "الممارسة والميزانية", "الاستدامة والأسئلة", "شارك الخيط"];
-const pageRoutes: Record<string, number> = { manifesto: 1, impact: 2, tracks: 3, campaign: 4, plan: 5, practices: 6, faq: 7, start: 8, join: 8 };
+const pageRoutes: Record<string, number> = { manifesto: 1, impact: 2, tracks: 3, campaign: 4, plan: 5, practices: 6, faq: 7, join: 8 };
+const pageSlugs: Record<number, string> = { 1: "manifesto", 2: "impact", 3: "tracks", 4: "campaign", 5: "plan", 6: "practices", 7: "faq", 8: "join" };
 
 type ViewMode = "story" | "book" | "scroll";
 
@@ -165,11 +167,12 @@ function SectionKicker({ children, light = false }: { children: React.ReactNode;
 }
 
 export default function Home() {
-  const [viewMode, setViewMode] = useState<ViewMode>("story");
+  const [location, setLocation] = useLocation();
+  const [viewMode, setViewMode] = useState<ViewMode>("book");
   const [nightMode, setNightMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [contentsOpen, setContentsOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(() => pageRoutes[location.replace(/^\//, "")] ?? 0);
   const [activeTrack, setActiveTrack] = useState<string | null>(null);
   const [activeWeek, setActiveWeek] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -184,17 +187,38 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  useEffect(() => {
+    if (viewMode !== "book") return;
+    const path = pageSlugs[currentPage] ? `/${pageSlugs[currentPage]}` : "/";
+    setLocation(path, { replace: true });
+  }, [currentPage, viewMode, setLocation]);
+
   const go = (key: string) => {
     setMenuOpen(false);
     if (viewMode !== "scroll") goPage(pageRoutes[key] ?? 0);
     else document.getElementById(`scroll-${key}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // Book mode shows pages in two-page spreads (page 0 = cover, then 1+2, 3+4, ...).
+  const pairStartOf = (page: number) => (page === 0 ? 0 : page % 2 === 1 ? page : page - 1);
+  const spreadOf = (page: number) => (page === 0 ? 0 : Math.ceil(page / 2));
+  const maxSpread = Math.ceil((pageTitles.length - 1) / 2);
+  const spreadToPage = (spread: number) => (spread === 0 ? 0 : spread * 2 - 1);
+
+  const stepForward = () => {
+    if (viewMode !== "book") { goPage(currentPage + 1); return; }
+    goPage(spreadToPage(Math.min(maxSpread, spreadOf(currentPage) + 1)));
+  };
+  const stepBackward = () => {
+    if (viewMode !== "book") { goPage(currentPage - 1); return; }
+    goPage(spreadToPage(Math.max(0, spreadOf(currentPage) - 1)));
+  };
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (viewMode === "scroll" || modal || contentsOpen) return;
-      if (event.key === "ArrowLeft" || event.key === "ArrowDown") goPage(currentPage + 1);
-      if (event.key === "ArrowRight" || event.key === "ArrowUp") goPage(currentPage - 1);
+      if (event.key === "ArrowLeft" || event.key === "ArrowDown") stepForward();
+      if (event.key === "ArrowRight" || event.key === "ArrowUp") stepBackward();
       if (event.key === "Escape") { setContentsOpen(false); setModal(null); }
     };
     window.addEventListener("keydown", onKey);
@@ -205,7 +229,7 @@ export default function Home() {
   const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
     if (touchStart.current === null || viewMode === "scroll") return;
     const delta = event.clientX - touchStart.current;
-    if (Math.abs(delta) > 55) goPage(delta < 0 ? currentPage + 1 : currentPage - 1);
+    if (Math.abs(delta) > 55) (delta < 0 ? stepForward : stepBackward)();
     touchStart.current = null;
   };
 
@@ -261,8 +285,8 @@ export default function Home() {
   const bookClass = `notebook-app ${nightMode ? "notebook-app--night" : ""} ${viewMode === "scroll" ? "notebook-app--scroll" : viewMode === "story" ? "notebook-app--story" : "notebook-app--book"}`;
   return <div className={bookClass} dir="rtl">
     <header className="notebook-header"><button className="notebook-brand" onClick={() => { setViewMode("story"); goPage(0); }}><span><img src={logoUrl} alt="" /></span><b>سند وعمار</b><small>قصة الرجولة الإيجابية</small></button><div className="notebook-view-switch"><span>طريقة العرض</span><button className={viewMode === "story" ? "active" : ""} onClick={() => setViewMode("story")}><Play size={15} /> قصة</button><button className={viewMode === "book" ? "active" : ""} onClick={() => setViewMode("book")}><BookOpen size={15} /> دفتر</button><button className={viewMode === "scroll" ? "active" : ""} onClick={() => setViewMode("scroll")}><FileText size={15} /> تمرير</button><button className="night-switch" onClick={() => setNightMode(!nightMode)}>{nightMode ? <Sun size={15} /> : <Moon size={15} />} {nightMode ? "نهار" : "ليل"}</button></div><button className="notebook-menu-button" aria-label="فتح القائمة" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={19} /> : <Menu size={19} />}</button></header>
-    {menuOpen && <nav className="notebook-menu"><button onClick={() => go("manifesto")}>الفكرة</button><button onClick={() => go("tracks")}>المسارات</button><button onClick={() => go("impact")}>الأثر</button><button onClick={() => go("plan")}>خطة 8 أسابيع</button><button onClick={() => go("faq")}>الأسئلة</button><button onClick={() => setModal("story")}>شارك الخيط <ArrowLeft size={15} /></button></nav>}
-    {viewMode === "story" ? renderStoryScene() : viewMode === "book" ? <><div className="notebook-controls"><button onClick={() => setContentsOpen(true)}><BookOpen size={15} /> الفهرس</button><button disabled={currentPage === 0} onClick={() => goPage(currentPage - 1)}><ArrowRight size={15} /> السابق</button><span>صفحة {currentPage + 1} / {pageTitles.length}</span><button disabled={currentPage === pageTitles.length - 1} onClick={() => goPage(currentPage + 1)}>التالي <ArrowLeft size={15} /></button></div><main className="book-stage" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp}>{<div className={`page-turn page-turn--${turnDirection}`} key={currentPage}>{renderPage(currentPage)}</div>}<div className="book-hint"><span>اسحب لقلب الصفحات</span><i>✦</i><span>أو استخدم الأسهم</span></div></main></> : <main className="scroll-stage">{pageTitles.map((_, index) => <section id={`scroll-${index === 1 ? "manifesto" : index === 2 ? "impact" : index === 3 ? "tracks" : index === 4 ? "campaign" : index === 5 ? "plan" : index === 6 ? "practices" : index === 7 ? "faq" : index === 8 ? "join" : "cover"}`} key={index}>{renderPage(index)}</section>)}</main>}
+    {menuOpen && <nav className="notebook-menu"><button onClick={() => go("manifesto")}>الفكرة</button><button onClick={() => go("impact")}>الأثر</button><button onClick={() => go("tracks")}>المسارات</button><button onClick={() => go("plan")}>خطة 8 أسابيع</button><button onClick={() => go("faq")}>الأسئلة</button><button onClick={() => setModal("story")}>شارك الخيط <ArrowLeft size={15} /></button></nav>}
+    {viewMode === "story" ? renderStoryScene() : viewMode === "book" ? <><div className="notebook-controls"><button onClick={() => setContentsOpen(true)}><BookOpen size={15} /> الفهرس</button><button disabled={spreadOf(currentPage) === 0} onClick={stepBackward}><ArrowRight size={15} /> السابق</button><span>{pairStartOf(currentPage) === 0 ? "صفحة 1" : `صفحتا ${pairStartOf(currentPage) + 1}-${pairStartOf(currentPage) + 2}`} / {pageTitles.length}</span><button disabled={spreadOf(currentPage) === maxSpread} onClick={stepForward}>التالي <ArrowLeft size={15} /></button></div><main className={`book-stage ${pairStartOf(currentPage) !== 0 ? "book-stage--spread" : ""}`} onPointerDown={handlePointerDown} onPointerUp={handlePointerUp}>{<div className={`page-turn page-turn--${turnDirection}`} key={pairStartOf(currentPage)}>{pairStartOf(currentPage) === 0 ? renderPage(0) : <div className="book-spread"><div className="book-spread-page">{renderPage(pairStartOf(currentPage))}</div><div className="book-spread-fold" /><div className="book-spread-page">{renderPage(pairStartOf(currentPage) + 1)}</div></div>}</div>}<div className="book-hint"><span>اسحب لقلب الصفحات</span><i>✦</i><span>أو استخدم الأسهم</span></div></main></> : <main className="scroll-stage">{pageTitles.map((_, index) => <section id={`scroll-${index === 1 ? "manifesto" : index === 2 ? "impact" : index === 3 ? "tracks" : index === 4 ? "campaign" : index === 5 ? "plan" : index === 6 ? "practices" : index === 7 ? "faq" : index === 8 ? "join" : "cover"}`} key={index}>{renderPage(index)}</section>)}</main>}
     <footer className="notebook-footer"><span>صُنع بالاهتمام <HeartHandshake size={13} /></span><span>سند وعمار · غزة · 2026</span><button onClick={() => setModal("story")}><Mail size={13} /> تواصل معنا</button></footer>
     {contentsOpen && <div className="contents-overlay" onClick={() => setContentsOpen(false)}><div className="contents-card" onClick={(event) => event.stopPropagation()}><button className="contents-close" onClick={() => setContentsOpen(false)}><X size={17} /></button><SectionKicker>فهرس الدفتر</SectionKicker><h2>خيط واحد،<br /><em>فصول كثيرة.</em></h2><div>{pageTitles.map((title, index) => <button key={title} onClick={() => { setContentsOpen(false); goPage(index); }}><span>0{index + 1}</span><strong>{title}</strong><ArrowLeft size={15} /></button>)}</div></div></div>}
     {modal && <div className="modal-backdrop" role="presentation" onClick={() => setModal(null)}><div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setModal(null)} aria-label="إغلاق"><X size={19} /></button>{renderModal()}</div></div>}
