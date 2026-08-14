@@ -4,6 +4,6 @@ All photos are free to use under the [Unsplash License](https://unsplash.com/lic
 
 | File | Photographer | Source |
 | :--- | :--- | :--- |
-| hero-solidarity.jpg | Laura Ohlman | https://unsplash.com/photos/pXte02H-49A |
+| hero-solidarity.png | Laura Ohlman | https://unsplash.com/photos/pXte02H-49A |
 | community-circle.jpg | Beth Macdonald | https://unsplash.com/photos/mbND4xtrlVY |
 | mentorship-circle.jpg | Dorota Trzaska | https://unsplash.com/photos/1tAtO-9HYNM |
