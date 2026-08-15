@@ -15,6 +15,7 @@ function Router() {
       <Route path={"/problem"} component={Home} />
       <Route path={"/gap"} component={Home} />
       <Route path={"/solution"} component={Home} />
+      <Route path={"/mechanism"} component={Home} />
       <Route path={"/tracks"} component={Home} />
       <Route path={"/plan"} component={Home} />
       <Route path={"/impact"} component={Home} />

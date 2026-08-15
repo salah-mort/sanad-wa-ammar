@@ -113,6 +113,28 @@ const solutionPoints = [
   ["قدرة تبقى بعدنا", "10 سفراء شباب يواصلون العمل بعد إغلاق التمويل الأول."],
 ] as const;
 
+// آلية العمل: ذراعان متكاملتان — الميدان يصنع التجربة، والرقمي يوسّع مداها.
+const fieldArm = [
+  ["12 جلسة ميدانية", "في مراكز الإيواء والمساحات الآمنة، بمعدل جلستين أسبوعياً خلال الأسابيع 3-7."],
+  ["ثلاثة مسارات متوازية", "ديوان السند للرجال والشباب، أعمدة البيت للأسرة، وشريكات الوعي للصبايا."],
+  ["أنشطة تطبيقية", "حوار الخيمة المفتوحة، تحدي الشريك الحقيقي، ورش أمان الخيمة، ومنتدى معايير السند."],
+  ["قياس مباشر", "استبيان قبلي في الأسبوع 3 وبعدي في الأسبوع 7 على المجموعة ذاتها."],
+  ["تخريج 10 سفراء", "قيادات شبابية تُدرَّب في الأسبوع الثامن لمواصلة العمل محلياً."],
+] as const;
+
+const digitalArm = [
+  ["المنصة الرقمية", "موقع تفاعلي يعرض المبادرة ويستقبل القصص والمشاركات من خارج نطاق الجلسات."],
+  ["10 مقاطع قصيرة", "أقل من دقيقة لكل مقطع، تُنتج على دفعتين في الأسبوعين 4 و6."],
+  ["حملات ترويجية", "نشر مموّل وموجّه عبر المنصات، وهاشتاق #خيط_السند لتجميع التفاعل."],
+  ["محتوى بصري ومقالات", "تصاميم وبطاقات توعوية قابلة للتنزيل والتداول دون إنترنت."],
+  ["تحليلات الوصول", "أرقام فعلية للوصول والتفاعل تُقارَن بمستهدف الـ50,000 وتُحدَّث في الأسبوع 6."],
+] as const;
+
+const armBridge = [
+  ["من الميدان إلى الشاشة", "المواقف الحقيقية من الجلسات تتحول إلى سيناريوهات المقاطع العشرة — بموافقة أصحابها ودون بيانات حساسة."],
+  ["من الشاشة إلى الميدان", "المحتوى الرقمي يجذب مشاركين جدداً للجلسات، ويصل إلى بيوت يتعذّر حضورها ميدانياً."],
+] as const;
+
 // كفاءة التكلفة: أرقام مشتقة حسابياً من ميزانية 4,000$ ومؤشرات الأثر المستهدفة أعلاه.
 const costEfficiency = [
   ["$8", "لكل مستفيد مباشر", "4,000$ ÷ 500 مستفيد مباشر — كلفة تشمل الجلسة والمواد التدريبية والتيسير والتقييم.", UsersRound],
@@ -187,17 +209,17 @@ const faqs = [
 
 // تسلسل إقناع: مشكلة ← فجوة ← حل ← لمن ← كيف ← أثر ← كلفة ← ضمانات ← أسئلة ← طلب.
 const pageTitles = [
-  "الغلاف", "المشكلة", "الفجوة", "الحل", "المسارات الثلاثة", "المنهجية والخطة",
+  "الغلاف", "المشكلة", "الفجوة", "الحل", "آلية العمل", "المسارات الثلاثة", "المنهجية والخطة",
   "الأثر والقياس", "الكلفة والعائد", "الضمانات", "الأسئلة الشائعة", "الشراكة والتواصل",
 ];
 const pageQuestions: Record<number, string> = {
-  1: "ما الذي يحدث؟", 2: "لماذا لا تكفي البرامج القائمة؟", 3: "ما الذي نقدّمه؟", 4: "لمن؟",
-  5: "كيف ومتى؟", 6: "ما الذي سيتغيّر، وكيف نتحقق؟", 7: "بكم؟", 8: "وماذا لو تغيّرت الظروف؟",
-  9: "أسئلة الشركاء", 10: "ما المطلوب منكم؟",
+  1: "ما الذي يحدث؟", 2: "لماذا لا تكفي البرامج القائمة؟", 3: "ما الذي نقدّمه؟", 4: "كيف تعمل المبادرة؟",
+  5: "لمن؟", 6: "كيف ومتى؟", 7: "ما الذي سيتغيّر، وكيف نتحقق؟", 8: "بكم؟", 9: "وماذا لو تغيّرت الظروف؟",
+  10: "أسئلة الشركاء", 11: "ما المطلوب منكم؟",
 };
 const pageRoutes: Record<string, number> = {
-  problem: 1, gap: 2, solution: 3, tracks: 4, plan: 5,
-  impact: 6, budget: 7, assurance: 8, faq: 9, partnership: 10,
+  problem: 1, gap: 2, solution: 3, mechanism: 4, tracks: 5, plan: 6,
+  impact: 7, budget: 8, assurance: 9, faq: 10, partnership: 11,
 };
 const pageSlugs: Record<number, string> = Object.fromEntries(Object.entries(pageRoutes).map(([slug, page]) => [page, slug]));
 
@@ -362,7 +384,29 @@ export default function Home() {
       {nextLink(page)}
     </article>;
 
-    if (page === 4) return <article className="notebook-page page-tracks">
+    if (page === 4) return <article className="notebook-page page-mechanism">
+      {pageMark(page)}
+      <SectionKicker>آلية العمل</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">ذراعان تعملان <em>معاً.</em></h2>
+      <div className="arms-grid">
+        <div className="arm-card arm-card--field">
+          <div className="arm-card-head"><UsersRound size={19} /><div><small>القسم الأول</small><strong>وجاهي · ميداني</strong></div></div>
+          <ul>{fieldArm.map(([title, text]) => <li key={title}><Check size={13} /><div><b>{title}</b><span>{text}</span></div></li>)}</ul>
+        </div>
+        <div className="arm-card arm-card--digital">
+          <div className="arm-card-head"><Globe2 size={19} /><div><small>القسم الثاني</small><strong>إلكتروني · رقمي</strong></div></div>
+          <ul>{digitalArm.map(([title, text]) => <li key={title}><Check size={13} /><div><b>{title}</b><span>{text}</span></div></li>)}</ul>
+        </div>
+      </div>
+      <div className="arm-bridge">
+        <div className="arm-bridge-head"><Waypoints size={16} /><strong>كيف تتغذى الذراعان من بعضهما</strong></div>
+        <div className="arm-bridge-list">{armBridge.map(([title, text]) => <div key={title}><ArrowLeft size={13} /><div><b>{title}</b><span>{text}</span></div></div>)}</div>
+      </div>
+      {nextLink(page)}
+    </article>;
+
+    if (page === 5) return <article className="notebook-page page-tracks">
       {pageMark(page)}
       <SectionKicker>المسارات الثلاثة</SectionKicker>
       {pageAsk(page)}
@@ -371,7 +415,7 @@ export default function Home() {
       {nextLink(page)}
     </article>;
 
-    if (page === 5) return <article className="notebook-page page-plan">
+    if (page === 6) return <article className="notebook-page page-plan">
       {pageMark(page)}
       <SectionKicker>المنهجية والخطة</SectionKicker>
       {pageAsk(page)}
@@ -391,7 +435,7 @@ export default function Home() {
       {nextLink(page)}
     </article>;
 
-    if (page === 6) return <article className="notebook-page page-impact">
+    if (page === 7) return <article className="notebook-page page-impact">
       {pageMark(page)}
       <SectionKicker>الأثر والقياس</SectionKicker>
       {pageAsk(page)}
@@ -406,7 +450,7 @@ export default function Home() {
       {nextLink(page)}
     </article>;
 
-    if (page === 7) return <article className="notebook-page page-budget">
+    if (page === 8) return <article className="notebook-page page-budget">
       {pageMark(page)}
       <SectionKicker>الكلفة والعائد</SectionKicker>
       {pageAsk(page)}
@@ -420,7 +464,7 @@ export default function Home() {
       {nextLink(page)}
     </article>;
 
-    if (page === 8) return <article className="notebook-page page-assurance">
+    if (page === 9) return <article className="notebook-page page-assurance">
       {pageMark(page)}
       <SectionKicker>الضمانات</SectionKicker>
       {pageAsk(page)}
@@ -437,7 +481,7 @@ export default function Home() {
       {nextLink(page)}
     </article>;
 
-    if (page === 9) return <article className="notebook-page page-faq">
+    if (page === 10) return <article className="notebook-page page-faq">
       {pageMark(page)}
       <SectionKicker>الأسئلة الشائعة</SectionKicker>
       {pageAsk(page)}
@@ -507,7 +551,7 @@ export default function Home() {
   return <div className={bookClass} dir="rtl">
     <header className="notebook-header"><button className="notebook-brand" onClick={() => { setViewMode("book"); goPage(0); }}><span><img src={logoUrl} alt="" /></span><b>سند وعمار</b><small>قصة الرجولة الإيجابية</small></button><div className="notebook-view-switch"><span>طريقة العرض</span><button className={viewMode === "story" ? "active" : ""} onClick={() => setViewMode("story")}><Play size={15} /> قصة</button><button className={viewMode === "book" ? "active" : ""} onClick={() => setViewMode("book")}><BookOpen size={15} /> دفتر</button><button className={viewMode === "scroll" ? "active" : ""} onClick={() => setViewMode("scroll")}><FileText size={15} /> تمرير</button><button className="night-switch" onClick={() => setNightMode(!nightMode)}>{nightMode ? <Sun size={15} /> : <Moon size={15} />} {nightMode ? "نهار" : "ليل"}</button></div><button className="notebook-menu-button" aria-label="فتح القائمة" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={19} /> : <Menu size={19} />}</button></header>
     {menuOpen && <nav className="notebook-menu"><button onClick={() => go("problem")}>المشكلة</button><button onClick={() => go("solution")}>الحل</button><button onClick={() => go("tracks")}>المسارات</button><button onClick={() => go("plan")}>المنهجية والخطة</button><button onClick={() => go("impact")}>الأثر والقياس</button><button onClick={() => go("budget")}>الكلفة</button><button onClick={() => go("faq")}>الأسئلة الشائعة</button><button onClick={() => go("partnership")}>الشراكة <ArrowLeft size={15} /></button></nav>}
-    {viewMode === "story" ? renderStoryScene() : viewMode === "book" ? <><div className="notebook-controls"><button onClick={() => setContentsOpen(true)}><BookOpen size={15} /> الفهرس</button><button disabled={spreadOf(currentPage) === 0} onClick={stepBackward}><ArrowRight size={15} /> السابق</button><span>{pairStartOf(currentPage) === 0 ? "صفحة 1" : `صفحتا ${pairStartOf(currentPage) + 1}-${pairStartOf(currentPage) + 2}`} / {pageTitles.length}</span><button disabled={spreadOf(currentPage) === maxSpread} onClick={stepForward}>التالي <ArrowLeft size={15} /></button></div><main className={`book-stage ${pairStartOf(currentPage) !== 0 ? "book-stage--spread" : ""}`} onPointerDown={handlePointerDown} onPointerUp={handlePointerUp}>{<div className={`page-turn page-turn--${turnDirection}`} key={pairStartOf(currentPage)}>{pairStartOf(currentPage) === 0 ? renderPage(0) : <div className="book-spread"><div className="book-spread-page">{renderPage(pairStartOf(currentPage))}</div><div className="book-spread-fold" /><div className="book-spread-page">{renderPage(pairStartOf(currentPage) + 1)}</div></div>}</div>}<div className="book-hint"><span>اسحب لقلب الصفحات</span><i>✦</i><span>أو استخدم الأسهم</span></div></main></> : <main className="scroll-stage">{pageTitles.map((_, index) => <section id={`scroll-${pageSlugs[index] ?? "cover"}`} key={index}>{renderPage(index)}</section>)}</main>}
+    {viewMode === "story" ? renderStoryScene() : viewMode === "book" ? <><div className="notebook-controls"><button onClick={() => setContentsOpen(true)}><BookOpen size={15} /> الفهرس</button><button disabled={spreadOf(currentPage) === 0} onClick={stepBackward}><ArrowRight size={15} /> السابق</button><span>{pairStartOf(currentPage) === 0 ? "صفحة 1" : `صفحتا ${pairStartOf(currentPage) + 1}-${pairStartOf(currentPage) + 2}`} / {pageTitles.length}</span><button disabled={spreadOf(currentPage) === maxSpread} onClick={stepForward}>التالي <ArrowLeft size={15} /></button></div><main className={`book-stage ${pairStartOf(currentPage) !== 0 ? "book-stage--spread" : ""}`} onPointerDown={handlePointerDown} onPointerUp={handlePointerUp}>{<div className={`page-turn page-turn--${turnDirection}`} key={pairStartOf(currentPage)}>{pairStartOf(currentPage) === 0 ? renderPage(0) : <div className="book-spread">{pairStartOf(currentPage) + 1 < pageTitles.length ? <><div className="book-spread-page">{renderPage(pairStartOf(currentPage))}</div><div className="book-spread-fold" /><div className="book-spread-page">{renderPage(pairStartOf(currentPage) + 1)}</div></> : <div className="book-spread-page book-spread-page--solo">{renderPage(pairStartOf(currentPage))}</div>}</div>}</div>}<div className="book-hint"><span>اسحب لقلب الصفحات</span><i>✦</i><span>أو استخدم الأسهم</span></div></main></> : <main className="scroll-stage">{pageTitles.map((_, index) => <section id={`scroll-${pageSlugs[index] ?? "cover"}`} key={index}>{renderPage(index)}</section>)}</main>}
     <footer className="notebook-footer"><span>صُنع بالاهتمام <HeartHandshake size={13} /></span><span>سند وعمار · غزة · 2026</span><button onClick={() => setModal("story")}><Mail size={13} /> تواصل معنا</button></footer>
     {contentsOpen && <div className="contents-overlay" onClick={() => setContentsOpen(false)}><div className="contents-card" onClick={(event) => event.stopPropagation()}><button className="contents-close" onClick={() => setContentsOpen(false)}><X size={17} /></button><SectionKicker>فهرس الدفتر</SectionKicker><h2>خيط واحد،<br /><em>فصول كثيرة.</em></h2><div>{pageTitles.map((title, index) => <button key={title} onClick={() => { setContentsOpen(false); goPage(index); }}><span>{String(index + 1).padStart(2, "0")}</span><strong>{title}</strong><ArrowLeft size={15} /></button>)}</div></div></div>}
     {modal && <div className="modal-backdrop" role="presentation" onClick={() => setModal(null)}><div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setModal(null)} aria-label="إغلاق"><X size={19} /></button>{renderModal()}</div></div>}
