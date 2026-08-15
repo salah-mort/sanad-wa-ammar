@@ -757,6 +757,13 @@ h1 em, h2 em { font-style: normal; color: var(--terracotta); }
 .book-spread-page .notebook-page { padding: clamp(26px, 3vw, 40px) clamp(24px, 3.4vw, 44px); }
 .book-spread-page .notebook-page h2 { font-size: clamp(30px, 3.1vw, 46px) !important; }
 .book-spread-page .cover-copy h1 { font-size: clamp(54px, 6vw, 84px); }
+/* صفوف العناوين مصممة جنباً إلى جنب لصفحة كاملة؛ في نصف العرض تخنق العنوان فيلتف كل كلمة لسطر. */
+/* الملاحظة الهامشية مثبّتة أسفل الصفحة الكاملة؛ في صفحات الفرق المزدحمة تتراكب مع المحتوى. */
+.book-spread-page .page-margin-note { position: static; transform: none; display: block; margin-top: 16px; }
+.book-spread-page .impact-page-heading, .book-spread-page .page-heading-row,
+.book-spread-page .campaign-page-head, .book-spread-page .resilience-heading { display: block; }
+.book-spread-page .impact-page-heading p, .book-spread-page .page-heading-row p,
+.book-spread-page .campaign-page-head p, .book-spread-page .resilience-heading p { max-width: 100%; margin-top: 10px; font-size: 12.5px; }
 .book-spread-page .idea-grid { grid-template-columns: 1fr 0.82fr; gap: 26px; margin-top: 26px; }
 .book-spread-page .idea-side blockquote p { font-size: 14.5px; line-height: 1.6; }
 .book-spread-page .page-lead { font-size: 13px; }
@@ -775,7 +782,8 @@ h1 em, h2 em { font-style: normal; color: var(--terracotta); }
 .page-number { position: absolute; z-index: 2; top: 30px; inset-inline-start: 52px; color: var(--notebook-muted); font-family: Georgia, serif; font-size: 20px; direction: ltr; }
 .page-number span { font-size: 11px; color: var(--notebook-copper); }
 .notebook-page h1, .notebook-page h2, .notebook-page h3, .notebook-page p { margin: 0; }
-.notebook-page h2 { font-size: clamp(40px, 6vw, 75px); line-height: 1.04; letter-spacing: -0.08em; font-weight: 950; }
+/* الخط العربي يحتاج تباعد أسطر أوسع من اللاتيني؛ 1.04 كان يجعل السطور تتراكب في العناوين الكبيرة. */
+.notebook-page h2 { font-size: clamp(40px, 6vw, 75px); line-height: 1.16; letter-spacing: -0.06em; font-weight: 950; }
 .notebook-page h2 em, .notebook-page h1 em { color: var(--notebook-copper); font-style: normal; }
 .notebook-page p { color: var(--notebook-muted); font-family: "Amiri", serif; line-height: 1.85; }
 
@@ -825,6 +833,11 @@ h1 em, h2 em { font-style: normal; color: var(--terracotta); }
 .page-impact { background: var(--notebook-blue); color: #f8efe3; }
 .page-impact::before { border-color: rgba(255, 245, 230, 0.25); }
 .page-impact::after { background: rgba(227, 180, 154, 0.52); }
+/* الصفحة الزرقاء تحتاج ألوان نص فاتحة، وإلا بقيت العناوين الجانبية والترقيم غير مقروءة. */
+.page-impact .notebook-kicker, .page-impact .notebook-kicker b { color: #f0c4ad; }
+.page-impact .notebook-kicker span { background: #f0c4ad; }
+.page-impact .page-number { color: rgba(248, 239, 227, 0.72); }
+.page-impact .page-number span { color: #f0c4ad; }
 .page-impact .page-number, .page-impact p { color: #d9d3c8; }
 .page-impact h2 { margin-top: 40px; font-size: clamp(54px, 8vw, 100px); }
 .impact-page-heading { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: end; gap: 30px; }
@@ -837,13 +850,27 @@ h1 em, h2 em { font-style: normal; color: var(--terracotta); }
 .impact-page-stat strong small { color: #e6b09a; font-size: 18px; }
 .impact-page-stat b { font-size: 13px; }
 .impact-page-stat span { color: #d9d3c8; font-family: "Amiri", serif; font-size: 12px; }
+/* بطاقات الأهداف: كل بطاقة هدف واحد + مؤشره + أداة التحقق، بدل صفوف بأزرار وهمية. */
+.objective-cards { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 26px; }
+.objective-card { display: grid; align-content: start; gap: 7px; padding: 15px 16px; border: 1px solid rgba(255, 245, 230, 0.28); background: rgba(255, 245, 230, 0.04); }
+.objective-card-head { display: flex; align-items: center; justify-content: space-between; }
+.objective-card-head svg { color: #f0c4ad; opacity: 0.9; }
+.objective-index { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: #e6b09a; letter-spacing: 0.06em; }
+.objective-title { font-size: 15px; line-height: 1.4; color: #fff6ea; }
+.objective-desc { font-size: 11.5px; line-height: 1.75; color: #d4cec3; }
+.objective-metric { display: flex; align-items: baseline; gap: 7px; margin-top: 3px; padding-top: 10px; border-top: 1px dashed rgba(255, 245, 230, 0.28); }
+.objective-metric b { font-family: Georgia, serif; font-size: 27px; line-height: 1; color: #f5c9b1; }
+.objective-metric span { font-size: 11.5px; color: #e8e2d7; }
+.objective-verify { display: flex; align-items: flex-start; gap: 6px; font-size: 10.5px; line-height: 1.6; color: #bdb7ac; }
+.objective-verify svg { flex: none; margin-top: 3px; color: #e6b09a; }
 .objectives-list { position: relative; z-index: 2; display: grid; gap: 14px; margin-top: 26px; padding-bottom: 70px; }
 .objectives-row { display: grid; grid-template-columns: 32px 1.1fr 1.3fr; gap: 18px; align-items: start; padding-top: 14px; border-top: 1px dashed rgba(255, 245, 230, 0.25); }
 .objectives-row > span { font-family: "IBM Plex Mono", monospace; color: #e6b09a; font-size: 12px; }
 .objectives-row strong { display: block; font-size: 14px; margin-bottom: 4px; }
 .objectives-row p { margin: 0; font-size: 12.5px; line-height: 1.8; color: #d9d3c8; }
 .objectives-row b { display: inline-block; margin-top: 7px; padding: 3px 9px; border: 1px solid rgba(255, 245, 230, 0.35); font-size: 11px; font-weight: 500; color: #f8efe3; }
-.impact-page-aside { position: absolute; bottom: 47px; inset-inline: 82px; display: flex; align-items: center; gap: 12px; border-top: 1px dashed rgba(255, 245, 230, 0.35); padding-top: 10px; color: #e7ded0; font-family: "Amiri", serif; font-size: 12px; }
+/* في وضع الفرق صارت الصفحة نصف عرض، فالتموضع المطلق كان يخرج عن الحواف — نتركه في التدفق الطبيعي. */
+.impact-page-aside { position: relative; z-index: 2; margin-top: 18px; display: flex; align-items: center; gap: 12px; border-top: 1px dashed rgba(255, 245, 230, 0.35); padding-top: 10px; color: #e7ded0; font-family: "Amiri", serif; font-size: 12px; }
 .impact-page-aside svg { color: #e6b09a; }
 .impact-page-aside .aside-mark { margin-inline-start: auto; color: #e6b09a; }
 
@@ -873,6 +900,44 @@ h1 em, h2 em { font-style: normal; color: var(--terracotta); }
 .track-detail-activities svg { flex-shrink: 0; margin-top: 4px; opacity: 0.85; }
 .track-detail-outcome { margin: 0; padding-top: 12px; border-top: 1px dashed currentColor; opacity: 0.85; font-size: 13px; }
 .page-margin-note { position: absolute; bottom: 43px; inset-inline-start: 55px; color: var(--notebook-copper); font-family: "Amiri", serif; font-size: 12px; transform: rotate(-4deg); }
+
+.modal-episode-list { display: grid; gap: 7px; margin-top: 16px; max-height: 300px; overflow-y: auto; }
+.modal-episode-list > div { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: baseline; padding-bottom: 7px; border-bottom: 1px dashed var(--notebook-rule); }
+.modal-episode-list span { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--notebook-copper); }
+.modal-episode-list strong { font-size: 12.5px; }
+.modal-episode-list small { font-size: 10px; color: var(--notebook-muted); white-space: nowrap; }
+
+/* ===== عناصر التسلسل السردي: سؤال الصفحة، العنوان، النقاط، رابط التالي ===== */
+.page-ask { position: relative; z-index: 2; margin-top: 14px; font-family: "Amiri", serif; font-size: 13px; color: var(--notebook-copper); }
+.page-title { position: relative; z-index: 2; margin-top: 6px !important; }
+.point-list { position: relative; z-index: 2; display: grid; gap: 13px; margin-top: 24px; }
+.point-list > div { display: flex; align-items: flex-start; gap: 11px; padding-bottom: 12px; border-bottom: 1px dashed var(--notebook-rule); }
+.point-list > div:last-child { padding-bottom: 0; border-bottom: 0; }
+.point-list svg { flex: none; margin-top: 3px; color: var(--notebook-copper); }
+.point-list strong { display: block; font-size: 14.5px; margin-bottom: 3px; }
+.point-list p { font-size: 12.5px; line-height: 1.75; }
+.point-list--compact > div { padding-bottom: 9px; }
+.point-list--compact strong { font-size: 13.5px; }
+.point-list--compact p { font-size: 12px; }
+.page-next-link { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; padding: 7px 13px; border: 1px solid var(--notebook-rule); background: transparent; cursor: pointer; font-family: inherit; font-size: 11.5px; color: var(--notebook-copper); transition: background 180ms ease; }
+.page-next-link:hover { background: var(--notebook-paper-deep); }
+.gap-callout { position: relative; z-index: 2; margin-top: 22px; padding: 15px 17px; background: var(--notebook-paper-deep); border-inline-start: 3px solid var(--notebook-copper); }
+.gap-callout strong { display: block; font-size: 12px; color: var(--notebook-copper); margin-bottom: 5px; }
+.gap-callout p { font-size: 13px; line-height: 1.8; }
+.solution-layout { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 0.75fr; gap: 28px; align-items: start; margin-top: 8px; }
+.solution-layout > div { min-width: 0; }
+.practice-chips { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.practice-chips span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--notebook-rule); font-size: 12px; }
+.practice-chips b { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--notebook-copper); }
+.cost-strip { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--notebook-rule); }
+.cost-strip > div { display: grid; gap: 2px; }
+.cost-strip strong { font-family: Georgia, serif; font-size: 27px; line-height: 1; color: var(--notebook-copper); }
+.cost-strip span { font-size: 11px; color: var(--notebook-muted); }
+.assurance-strip { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--notebook-rule); }
+.assurance-strip > div { display: grid; gap: 3px; align-content: start; }
+.assurance-strip svg { color: var(--notebook-copper); }
+.assurance-strip strong { font-size: 12.5px; }
+.assurance-strip span { font-size: 10.5px; color: var(--notebook-muted); }
 
 /* ===== الغلاف: شريط الأرقام المؤسسية ===== */
 .cover-figures { display: grid; grid-template-columns: repeat(4, auto); gap: 18px; justify-content: start; margin: 16px 0 4px; }
@@ -905,12 +970,14 @@ h1 em, h2 em { font-style: normal; color: var(--terracotta); }
 .accountability-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
 .accountability-head svg { color: var(--notebook-copper); }
 .accountability-head strong { font-size: 13px; }
-.accountability-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.accountability-list > div { display: grid; gap: 4px; align-content: start; }
-.accountability-list > div > div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+/* صفوف رأسية أوضح من ثلاثة أعمدة ضيقة داخل صفحة نصف العرض. */
+.accountability-list { display: grid; gap: 9px; }
+.accountability-list > div { display: grid; gap: 3px; padding-bottom: 9px; border-bottom: 1px dashed var(--notebook-rule); }
+.accountability-list > div:last-child { padding-bottom: 0; border-bottom: 0; }
+.accountability-list > div > div { display: flex; align-items: baseline; gap: 7px; }
 .accountability-list strong { font-size: 12.5px; }
 .accountability-list b { font-size: 10px; color: var(--notebook-copper); white-space: nowrap; }
-.accountability-list p { font-size: 11px; line-height: 1.65; }
+.accountability-list p { font-size: 11.5px; line-height: 1.7; }
 
 /* ===== المنهجية التشغيلية: خطوات التطبيق ===== */
 .method-steps { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--notebook-rule); }
@@ -1087,8 +1154,14 @@ h1 em, h2 em { font-style: normal; color: var(--terracotta); }
   .book-spread-page .notebook-page { min-height: calc(100vh - 200px); }
   .cover-figures { grid-template-columns: repeat(2, 1fr); gap: 13px; }
   .cover-figures strong { font-size: 21px; }
-  .exec-highlights, .accountability-list, .cost-compare-list { grid-template-columns: 1fr; gap: 15px; }
-  .measurement-grid, .sustain-grid, .cost-grid, .tiers-grid { grid-template-columns: 1fr; gap: 9px; }
+  .exec-highlights, .cost-compare-list { grid-template-columns: 1fr; gap: 15px; }
+  .accountability-list > div { grid-template-columns: 1fr; gap: 3px; }
+  .solution-layout, .cost-strip, .assurance-strip { grid-template-columns: 1fr; gap: 16px; }
+  .point-list { gap: 11px; margin-top: 18px; }
+  .point-list strong { font-size: 13px; }
+  .point-list p { font-size: 11.5px; }
+  .practice-chips span { font-size: 11px; padding: 5px 10px; }
+  .measurement-grid, .sustain-grid, .cost-grid, .tiers-grid, .objective-cards { grid-template-columns: 1fr; gap: 9px; }
   .cost-card strong { font-size: 26px; }
   .risk-head { display: none; }
   .risk-row { grid-template-columns: 1fr auto; gap: 5px 10px; padding: 12px 0; }

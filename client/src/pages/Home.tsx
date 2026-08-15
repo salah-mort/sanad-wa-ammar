@@ -93,18 +93,24 @@ const practices = [
   ["04", "قدوة", "أن نبدأ بالفعل الصغير الذي يراه من حولنا ويستطيع تكراره، وينقله سفراء السند العشرة بعد تدريبهم في الأسبوع الثامن."],
 ];
 
-const steps = [
-  ["01", "اسمع", "ما الحمل الذي يمكنني تخفيفه اليوم؟", "خطوة أولى"],
-  ["02", "شارك", "اختر مهمة واحدة في البيت أو الحي وقم بها دون انتظار تصفيق.", "تطبيق يومي"],
-  ["03", "احتوِ", "اترك وقتاً آمناً لطفل أو شريكة أو صديق كي يتكلم.", "مساحة أمان"],
-  ["04", "انقل الخيط", "احكِ ما تعلمته لشخص آخر كي لا تبقى المبادرة حكاية فردية.", "أثر مستمر"],
-];
+// نقاط الصفحات الافتتاحية: عنوان قصير + جملة واحدة، لا فقرات.
+const problemPoints = [
+  ["ضغط مركّب", "عجز عن تأمين الأساسيات، وضغط صورة الرجولة الصلبة في آنٍ واحد.", Clock3],
+  ["بيت بلا مساحة أمان", "التوتر اليومي داخل الخيمة يتحول إلى صمت أو انفجار، لا إلى حوار.", ShieldCheck],
+  ["العبء على كتف واحد", "المسؤولية كلها على شخص واحد، فينهار هو ومعه استقرار الأسرة.", UsersRound],
+] as const;
 
-const impactStats = [
-  ["500", "+", "مستفيد مباشر", "شباب، أزواج، أسر وصبايا", UsersRound],
-  ["50,000", "+", "وصول رقمي", "عبر الحملة والمحتوى القصير", Globe2],
-  ["12", " جلسة", "جلسة ميدانية", "في مراكز الإيواء والمساحات الآمنة", CalendarDays],
-  ["75", "%", "تحول مستهدف", "في الوعي والممارسة بعد التقييم", Target],
+const gapPoints = [
+  ["الإغاثة تسدّ الجوع", "البرامج القائمة تغطي الاحتياج المادي، وهذا ضروري لكنه غير كافٍ.", HeartHandshake],
+  ["الرجل خارج المعادلة", "الدعم النفسي-الاجتماعي نادراً ما يستهدف الرجل والشاب داخل الأسرة.", AlertTriangle],
+  ["النتيجة", "يبقى التصدع الداخلي بلا تدخل، فيُهدر أثر المساعدات المادية نفسها.", TrendingUp],
+] as const;
+
+const solutionPoints = [
+  ["نُدرِّب، لا نَعِظ", "الرعاية والإصغاء والشراكة مهارات تُتدرَّب في جلسات، لا شعارات تُقال."],
+  ["ميدان + شاشة", "12 جلسة مباشرة لـ500 مستفيد، و10 مقاطع قصيرة تصل إلى 50,000."],
+  ["أثر مُقاس", "استبيان قبلي وبعدي على المجموعة ذاتها، بمستهدف تحول 75%."],
+  ["قدرة تبقى بعدنا", "10 سفراء شباب يواصلون العمل بعد إغلاق التمويل الأول."],
 ] as const;
 
 // كفاءة التكلفة: أرقام مشتقة حسابياً من ميزانية 4,000$ ومؤشرات الأثر المستهدفة أعلاه.
@@ -113,26 +119,6 @@ const costEfficiency = [
   ["$0.08", "لكل وصول رقمي", "4,000$ ÷ 50,000 وصول مستهدف عبر الحملة الرقمية والمحتوى القصير.", Globe2],
   ["$333", "لكل جلسة ميدانية", "4,000$ ÷ 12 جلسة، شاملة المكان والتيسير والضيافة والمواد.", CalendarDays],
   ["$400", "لكل سفير سند", "4,000$ ÷ 10 سفراء يواصلون نقل الأدوات بعد إغلاق التمويل الأول.", Sparkles],
-] as const;
-
-const costComparisons = [
-  ["أثر يتجاوز مدة التمويل", "تدريب 10 سفراء يحوّل التمويل لمرة واحدة إلى قدرة محلية مستمرة بعد الأسبوع الثامن، دون كلفة تشغيلية إضافية على الشريك."],
-  ["مسارَان بتمويل واحد", "الميزانية نفسها تموّل الأثر الميداني المباشر (500 مستفيد) والأثر الرقمي الواسع (50,000 وصول) في آنٍ واحد، بلا ازدواج في الكلفة."],
-  ["بنية تكلفة موجّهة للميدان", "90% من الميزانية تذهب مباشرة إلى التنفيذ والمحتوى والمواد (3,600$)، و10% فقط للتقييم والتوثيق والطوارئ."],
-] as const;
-
-// منهجية القياس: مرتبطة بأسابيع الخطة التنفيذية أدناه (weeks).
-const measurementTools = [
-  ["استبيان القياس القبلي", "الأسبوع 3", "يوزَّع على المستفيدين المباشرين قبل بدء الجلسات، ويرصد خط الأساس في الوعي وتوزيع المهام اليومية داخل الأسرة.", ClipboardCheck],
-  ["كشوف الحضور والتوثيق", "أسبوعياً", "سجل حضور موقّع لكل جلسة من الجلسات الاثنتي عشرة، مرفقاً بتوثيق مرئي بموافقة المشاركين.", FileText],
-  ["استبيان القياس البعدي", "الأسبوع 7", "الأداة نفسها تُعاد على المجموعة ذاتها، ويُحتسب الفرق بين القياسين كمؤشر للتحول السلوكي المستهدف (75%).", Target],
-  ["تحليلات المنصات الرقمية", "مستمر", "أرقام الوصول والتفاعل الفعلية من منصات النشر، تُقارَن بمستهدف الـ50,000 وصول وتُحدَّث في الأسبوع 6.", BarChart3],
-] as const;
-
-const accountabilityCommitments = [
-  ["تقرير منتصف المدة", "الأسبوع 4", "تقرير مرحلي يوضح نسب الإنجاز مقابل الخطة، وأي انحراف عن الجدول الزمني وأسبابه."],
-  ["التقرير الختامي الشامل", "الأسبوع 8", "نتائج القياس القبلي والبعدي، أرقام الوصول الفعلية، قصص الأثر الموثقة، والدروس المستفادة."],
-  ["الكشف المالي الكامل", "الأسبوع 8", "بيان صرف مفصّل لكل بند من بنود الميزانية الأربعة مرفقاً بالفواتير والمستندات الداعمة."],
 ] as const;
 
 // سجل المخاطر: البندان الأول والثاني مستمدان من بروتوكولات الحماية البديلة في مقترح الشراكة.
@@ -159,11 +145,12 @@ const partnershipTiers = [
   ["شريك عيني أو استشاري", "دعم غير نقدي", "خبرة ومساحات", ["توفير مساحات آمنة أو تجهيزات أو خدمات إنتاج", "دعم استشاري في المحتوى النفسي-الاجتماعي أو التقييم", "الربط بشبكات مؤسسية وفرص تمويل لاحقة"], "inkind"],
 ] as const;
 
+// لكل هدف مؤشر واحد: قيمة رقمية + وحدة + أداة التحقق، بدل تكرار الأرقام في شريط منفصل.
 const objectives = [
-  ["تخفيف الضغط الأسري", "إعادة توزيع المسؤوليات اليومية داخل الأسرة النازحة عبر الشراكة والاحتواء، بدل تركها على كتف واحد.", "استفادة مباشرة لـ 500 فرد عبر الجلسات واللقاءات الوجاهية"],
-  ["بناء وعي الشباب", "تمكين الشباب والصبايا من أدوات التواصل الفعّال وإدارة الضغوط النفسية في بيئة النزوح.", "تدريب 10 سفراء شباب لنقل المعرفة واستدامة الحوار"],
-  ["صناعة محتوى داعم", "إنتاج مواد توعوية رقمية قصيرة تحاكي تفاصيل الحياة اليومية داخل الخيام والمساحات الآمنة.", "تحقيق أكثر من 50,000 وصول تفاعلي عبر المنصات الرقمية"],
-  ["تحقيق التحول السلوكي", "ترسيخ ممارسات الإصغاء والشراكة كبدائل يومية للتوتر والصلابة الفردية.", "معدل رضا وتحول سلوكي 75% فأكثر بين المشاركين، مقاس قبل وبعد"],
+  ["تخفيف الضغط الأسري", "إعادة توزيع المسؤوليات اليومية داخل الأسرة النازحة عبر الشراكة والاحتواء، بدل تركها على كتف واحد.", "500", "مستفيد مباشر", "كشوف حضور 12 جلسة ولقاءً وجاهياً", UsersRound],
+  ["بناء وعي الشباب", "تمكين الشباب والصبايا من أدوات التواصل الفعّال وإدارة الضغوط النفسية في بيئة النزوح.", "10", "سفراء شباب", "قوائم التخرج في الأسبوع الثامن", Sparkles],
+  ["صناعة محتوى داعم", "إنتاج مواد توعوية رقمية قصيرة تحاكي تفاصيل الحياة اليومية داخل الخيام والمساحات الآمنة.", "50,000", "وصول رقمي", "تحليلات المنصات الرقمية", Globe2],
+  ["تحقيق التحول السلوكي", "ترسيخ ممارسات الإصغاء والشراكة كبدائل يومية للتوتر والصلابة الفردية.", "75%", "تحول سلوكي", "استبيان قبلي وبعدي على المجموعة ذاتها", Target],
 ] as const;
 
 const episodes = [
@@ -198,14 +185,19 @@ const faqs = [
   ["ماذا يحدث بعد انتهاء الأسابيع الثمانية؟", "يتم اختيار وتدريب 10 من قيادات الشباب المشاركين ليكونوا سفراء السند، ويواصلوا نقل الأدوات والحوار داخل مجتمعاتهم بعد إغلاق المشروع رسمياً — بحيث لا يتوقف الأثر بانتهاء التمويل الأول."],
 ];
 
+// تسلسل إقناع: مشكلة ← فجوة ← حل ← لمن ← كيف ← أثر ← كلفة ← ضمانات ← أسئلة ← طلب.
 const pageTitles = [
-  "الغلاف", "الملخص التنفيذي", "السياق والحاجة", "الأهداف ومؤشرات الأثر", "منهجية القياس والمساءلة",
-  "المسارات الثلاثة", "الحملة الرقمية", "خطة التنفيذ", "المنهجية التشغيلية", "الميزانية التفصيلية",
-  "كفاءة التكلفة والعائد", "إدارة المخاطر", "الاستدامة وما بعد المشروع", "الأسئلة الشائعة", "الشراكة والتواصل",
+  "الغلاف", "المشكلة", "الفجوة", "الحل", "المسارات الثلاثة", "المنهجية والخطة",
+  "الأثر والقياس", "الكلفة والعائد", "الضمانات", "الأسئلة الشائعة", "الشراكة والتواصل",
 ];
+const pageQuestions: Record<number, string> = {
+  1: "ما الذي يحدث؟", 2: "لماذا لا تكفي البرامج القائمة؟", 3: "ما الذي نقدّمه؟", 4: "لمن؟",
+  5: "كيف ومتى؟", 6: "ما الذي سيتغيّر، وكيف نتحقق؟", 7: "بكم؟", 8: "وماذا لو تغيّرت الظروف؟",
+  9: "أسئلة الشركاء", 10: "ما المطلوب منكم؟",
+};
 const pageRoutes: Record<string, number> = {
-  summary: 1, context: 2, objectives: 3, measurement: 4, tracks: 5, campaign: 6, plan: 7,
-  methodology: 8, budget: 9, "cost-efficiency": 10, risks: 11, sustainability: 12, faq: 13, partnership: 14,
+  problem: 1, gap: 2, solution: 3, tracks: 4, plan: 5,
+  impact: 6, budget: 7, assurance: 8, faq: 9, partnership: 10,
 };
 const pageSlugs: Record<number, string> = Object.fromEntries(Object.entries(pageRoutes).map(([slug, page]) => [page, slug]));
 
@@ -302,7 +294,11 @@ export default function Home() {
     touchStart.current = null;
   };
 
+  // ترويسة موحّدة: رقم الصفحة + السؤال الذي تجيب عنه، فيبقى التسلسل مرئياً في كل صفحة.
   const pageMark = (page: number) => <div className="page-number">{String(page + 1).padStart(2, "0")} <span>/ {pageTitles.length}</span></div>;
+  const pageAsk = (page: number) => pageQuestions[page] ? <div className="page-ask">{pageQuestions[page]}</div> : null;
+  const nextLink = (page: number) => page >= pageTitles.length - 1 ? null
+    : <button className="page-next-link" onClick={() => goPage(page + 1)}>التالي: {pageTitles[page + 1]} <ArrowLeft size={14} /></button>;
 
   const renderPage = (page: number) => {
     if (page === 0) return <article className="notebook-page notebook-cover">
@@ -312,18 +308,18 @@ export default function Home() {
         <div className="cover-copy">
           <SectionKicker>مقترح شراكة استراتيجية · قطاع غزة</SectionKicker>
           <h1>سند<br /><em>وعمار</em></h1>
-          <p>مبادرة نفسية-اجتماعية للرجولة الإيجابية والتماسك الأسري، تستهدف 500 مستفيد مباشر خلال ثمانية أسابيع بميزانية 4,000 دولار.</p>
+          <p>نُدرِّب الرجال والشباب والأسر في غزة على الرعاية والشراكة، ونقيس ما يتغيّر.</p>
           <div className="cover-line" />
           <div className="cover-figures">
             <div><strong>500</strong><span>مستفيد مباشر</span></div>
             <div><strong>50,000</strong><span>وصول رقمي</span></div>
-            <div><strong>08</strong><span>أسابيع تنفيذ</span></div>
-            <div><strong>$4,000</strong><span>ميزانية شاملة</span></div>
+            <div><strong>08</strong><span>أسابيع</span></div>
+            <div><strong>$4,000</strong><span>الميزانية</span></div>
           </div>
-          <button className="notebook-primary" onClick={() => goPage(1)}>اطّلع على المقترح <ArrowLeft size={17} /></button>
+          <button className="notebook-primary" onClick={() => goPage(1)}>ابدأ من المشكلة <ArrowLeft size={17} /></button>
         </div>
         <div className="cover-visual">
-          <img src={heroImage} alt="أب وأطفال في لحظة تضامن وأمل" />
+          <img src={heroImage} alt="أب وطفل داخل مخيم نزوح في غزة" />
           <div className="cover-stamp"><span>الكلفة</span><strong>8$ للمستفيد</strong><i>✦</i></div>
           <small>مبادرة مجتمعية · قطاع غزة</small>
         </div>
@@ -331,170 +327,136 @@ export default function Home() {
       <div className="cover-footer"><span>وثيقة موجهة للمؤسسات الشريكة والداعمة</span><span>سند وعمار / 2026</span></div>
     </article>;
 
-    if (page === 1) return <article className="notebook-page page-idea">
+    if (page === 1) return <article className="notebook-page page-problem">
       {pageMark(page)}
-      <SectionKicker>الملخص التنفيذي</SectionKicker>
-      <div className="idea-grid">
+      <SectionKicker>المشكلة</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">البيت النازح يحمل <em>أكثر مما يحتمل.</em></h2>
+      <div className="point-list">{problemPoints.map(([title, text, Icon]) => <div key={title}><Icon size={18} /><div><strong>{title}</strong><p>{text}</p></div></div>)}</div>
+      <blockquote className="context-quote"><Quote size={19} /><p>الرجولة في الظروف الطارئة ليست بمعزل عن الألم، بل هي القدرة على حمل المسؤولية بالرحمة.</p></blockquote>
+      {nextLink(page)}
+    </article>;
+
+    if (page === 2) return <article className="notebook-page page-gap">
+      {pageMark(page)}
+      <SectionKicker>الفجوة</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">الإغاثة تسدّ الجوع، <em>لا الصدع.</em></h2>
+      <div className="point-list">{gapPoints.map(([title, text, Icon]) => <div key={title}><Icon size={18} /><div><strong>{title}</strong><p>{text}</p></div></div>)}</div>
+      <div className="gap-callout"><strong>الخلاصة</strong><p>هناك فراغ نوعي في الاستجابة الإنسانية: لا أحد يعمل على الرجل والشاب داخل الأسرة النازحة. «سند وعمار» تملأ هذا الفراغ.</p></div>
+      {nextLink(page)}
+    </article>;
+
+    if (page === 3) return <article className="notebook-page page-solution">
+      {pageMark(page)}
+      <SectionKicker>الحل</SectionKicker>
+      {pageAsk(page)}
+      <div className="solution-layout">
         <div>
-          <h2>تدخّل نوعي<br /><em>يسدّ فجوة</em><br />قائمة.</h2>
-          <p className="page-lead">«سند وعمار» مبادرة نفسية-اجتماعية مدتها ثمانية أسابيع، تعمل مع 500 مستفيد مباشر من الشباب والأسر والصبايا في قطاع غزة، عبر 12 جلسة ميدانية وحملة رقمية تستهدف 50,000 وصول. تعالج المبادرة بُعداً لا تغطيه البرامج الإغاثية المعتادة: التماسك النفسي والاجتماعي داخل الأسرة النازحة، عبر ترسيخ الرعاية والإصغاء والشراكة المنزلية كأدوات استقرار قابلة للقياس.</p>
+          <h2 className="page-title">نُحوّل الرعاية <em>إلى مهارة تُدرَّب.</em></h2>
+          <div className="point-list point-list--compact">{solutionPoints.map(([title, text]) => <div key={title}><Check size={16} /><div><strong>{title}</strong><p>{text}</p></div></div>)}</div>
         </div>
-        <div className="idea-side">
-          <div className="page-photo"><img src={mentorshipImage} alt="جلسة دعم نفسي-اجتماعي داخل خيمة في غزة" /><span>جلسة دعم وتعافٍ · نموذج ميداني</span></div>
-          <blockquote><Quote size={19} /><p>لا تقدّم المبادرة إغاثة مادية، بل تبني سلوكاً يومياً قابلاً للقياس يخفف العبء عن البيت النازح.</p></blockquote>
-        </div>
+        <div className="page-photo"><img src={mentorshipImage} alt="جلسة دعم نفسي-اجتماعي داخل خيمة في غزة" /><span>جلسة دعم وتعافٍ · نموذج ميداني</span></div>
       </div>
-      <div className="exec-highlights">
-        <div><Target size={17} /><strong>الهدف</strong><p>تحويل الرعاية والشراكة المنزلية من توقع اجتماعي غامض إلى ممارسة يومية موثقة ومُقاسة قبل التدخل وبعده.</p></div>
-        <div><UsersRound size={17} /><strong>الفئة المستهدفة</strong><p>500 مستفيد مباشر: رجال وشباب وأزواج جدد، أسر كاملة، وصبايا وقيادات نسوية في مراكز الإيواء والمساحات الآمنة.</p></div>
-        <div><TrendingUp size={17} /><strong>العائد على الاستثمار</strong><p>كلفة 8 دولارات للمستفيد المباشر، مع أثر رقمي موازٍ بكلفة 0.08 دولار للوصول الواحد، وقدرة محلية باقية بعد انتهاء التمويل.</p></div>
-      </div>
-      <div className="page-bottom-note"><span>01 / 04</span><p>يُقدَّم هذا المقترح للمؤسسات الشريكة عبر أربعة مستويات شراكة تبدأ من الدعم العيني وتصل إلى التمويل الكامل، مع التزامات تقارير ومساءلة مالية محددة زمنياً.</p></div>
+      <button className="small-text-action" onClick={() => setModal("guide")}><Video size={14} /> محاور المقاطع العشرة</button>
+      {nextLink(page)}
     </article>;
 
-    if (page === 2) return <article className="notebook-page page-context">
-      {pageMark(page)}
-      <SectionKicker>السياق الإنساني والحاجة</SectionKicker>
-      <div className="page-heading-row"><h2>لماذا هذا التدخل، <em>ولماذا الآن.</em></h2><p>تحليل الحاجة كما ورد في وثائق المبادرة الميدانية.</p></div>
-      <div className="context-body">
-        <p className="page-lead">تواجه العائلات الفلسطينية في غزة ضغوطاً غير مسبوقة تضعف قدرة الهياكل التقليدية على الصمود. في بيئات النزوح ومراكز الإيواء، يتعرض الرجال والشباب لضغط مركّب: العجز عن تأمين الاحتياجات الأساسية من جهة، وضغط الصورة النمطية للرجولة القائمة على الصلابة الفردية المطلقة من جهة أخرى. هذا المناخ يضاعف العبء النفسي على الأسرة ويرفع احتمالات التصدع الداخلي.</p>
-      </div>
-      <div className="idea-context">
-        <div><Clock3 size={17} /><strong>ضغط مركّب غير مسبوق</strong><p>النزوح المستمر ومراكز الإيواء يضاعفان العبء النفسي على الرجال والشباب، ويجعلان صورة الرجولة القائمة على التحمل الصامت عبئاً إضافياً بدل أن تكون مصدر إسناد.</p></div>
-        <div><ShieldCheck size={17} /><strong>فجوة نوعية في الاستجابة</strong><p>البرامج الإغاثية المعتادة تغطي الاحتياج المادي وتترك فراغاً في الدعم النفسي-الاجتماعي الموجّه للرجل والشاب داخل الأسرة، رغم أثره المباشر على استقرار البيت.</p></div>
-        <div><HeartHandshake size={17} /><strong>فرصة تدخل قابلة للقياس</strong><p>تحويل الرعاية والإصغاء وتقاسم الأعباء اليومية إلى ممارسة يمكن تدريبها وقياسها، يعيد للبيت مساحة أمان متبادلة بكلفة منخفضة وأثر ممتد.</p></div>
-      </div>
-      <blockquote className="context-quote"><Quote size={19} /><p>الرجولة في الظروف الطارئة ليست بمعزل عن الألم، بل هي القدرة على حمل المسؤولية بالرحمة، وتقاسم عبء الخيمة والنزوح، وتحويل البيت إلى مساحة أمان متبادل.</p></blockquote>
-    </article>;
-
-    if (page === 3) return <article className="notebook-page page-impact">
-      {pageMark(page)}
-      <SectionKicker>الأهداف الاستراتيجية</SectionKicker>
-      <div className="impact-page-heading"><h2>أربعة أهداف،<br /><em>أربعة مؤشرات.</em></h2><p>لكل هدف مؤشر أثر رقمي محدد، يُقاس بأداة موثقة ضمن الجدول الزمني للمشروع.</p></div>
-      <div className="impact-page-grid">{impactStats.map(([value, suffix, label, note, Icon]) => <div className="impact-page-stat" key={label}><Icon size={20} /><strong>{value}<small>{suffix}</small></strong><b>{label}</b><span>{note}</span></div>)}</div>
-      <div className="objectives-list">{objectives.map(([goal, description, indicator], index) => <div className="objectives-row" key={goal}><span>0{index + 1}</span><div><strong>{goal}</strong><p>{description}</p></div><div><p>{indicator}</p><b>مؤشر الأثر</b></div></div>)}</div>
-      <div className="impact-page-aside"><BarChart3 size={18} /><span>جميع المؤشرات مستهدفة ضمن خطة العمل التنفيذية ذات الثمانية أسابيع، وتُوثَّق في التقرير الختامي.</span><span className="aside-mark">قياس قبلي وبعدي</span></div>
-    </article>;
-
-    if (page === 4) return <article className="notebook-page page-measure">
-      {pageMark(page)}
-      <SectionKicker>منهجية القياس والمساءلة</SectionKicker>
-      <div className="page-heading-row"><h2>كيف نتحقق <em>من الأثر.</em></h2><p>أربع أدوات قياس مرتبطة بأسابيع محددة، وثلاثة التزامات تقارير تجاه الشريك.</p></div>
-      <div className="measurement-grid">{measurementTools.map(([tool, timing, description, Icon]) => <div className="measure-card" key={tool}><div className="measure-card-top"><Icon size={18} /><b>{timing}</b></div><strong>{tool}</strong><p>{description}</p></div>)}</div>
-      <div className="accountability-block">
-        <div className="accountability-head"><ClipboardCheck size={17} /><strong>التزامات التقارير تجاه الشريك</strong></div>
-        <div className="accountability-list">{accountabilityCommitments.map(([title, timing, description]) => <div key={title}><div><strong>{title}</strong><b>{timing}</b></div><p>{description}</p></div>)}</div>
-      </div>
-      <div className="page-margin-note">لا يُحتسب أي مؤشر دون أداة تحقق موثقة.</div>
-    </article>;
-
-    if (page === 5) return <article className="notebook-page page-tracks">
+    if (page === 4) return <article className="notebook-page page-tracks">
       {pageMark(page)}
       <SectionKicker>المسارات الثلاثة</SectionKicker>
-      <div className="page-heading-row"><h2>ثلاثة مسارات <em>تكاملية.</em></h2><p>تخاطب المبادرة ثلاث شرائح متمايزة بأدوات وأنشطة مختلفة، ضمن إطار منهجي واحد.</p></div>
+      {pageAsk(page)}
+      <h2 className="page-title">ثلاث شرائح، <em>ثلاثة مداخل.</em></h2>
       <div className="notebook-track-list">{tracks.map((track) => { const Icon = track.icon; const open = activeTrack === track.id; return <div className={`notebook-track-card notebook-track-card--${track.tone} ${open ? "is-open" : ""}`} key={track.id}><div className="track-card-main"><span className="track-index">{track.number}</span><Icon size={24} /><div><small>{track.label}</small><h3>{track.title}</h3><p>{track.description}</p></div></div><button onClick={() => setActiveTrack(open ? null : track.id)} aria-expanded={open}>{open ? "أغلق" : "التفاصيل"}{open ? <ChevronDown size={15} /> : <Plus size={15} />}</button>{open && <div className="notebook-track-detail"><p className="track-detail-overview">{track.overview}</p><ul className="track-detail-activities">{track.activities.map((activity) => <li key={activity}><Check size={14} />{activity}</li>)}</ul><p className="track-detail-outcome">{track.outcome}</p></div>}</div>; })}</div>
-      <div className="page-margin-note">المسارات الثلاثة تعمل بالتوازي ضمن الأسابيع 3 إلى 7.</div>
+      {nextLink(page)}
     </article>;
 
-    if (page === 6) return <article className="notebook-page page-campaign">
+    if (page === 5) return <article className="notebook-page page-plan">
       {pageMark(page)}
-      <SectionKicker>الحملة الرقمية</SectionKicker>
-      <div className="campaign-page-head">
-        <div><h2>عشرة مقاطع،<br /><em>50,000 وصول.</em></h2><p>محتوى قصير قابل للمشاركة يوسّع أثر الجلسات الميدانية إلى بيوت لم تحضرها، بكلفة 0.08 دولار للوصول الواحد.</p></div>
-        <div className="campaign-card-note"><Video size={20} /><strong>10</strong><span>مقاطع<br />أقل من دقيقة</span></div>
-      </div>
-      <div className="episode-book-grid">{episodes.map(([number, title, type, duration]) => <button className="episode-book-card" key={number} onClick={() => setModal("guide")}><span>{number}</span><i><Play size={11} fill="currentColor" /></i><strong>{title}</strong><small>{type} · {duration}</small></button>)}</div>
-      <div className="page-bottom-note"><span>#خيط_السند</span><p>تُنتج المقاطع على دفعتين (الأسبوعان 4 و6) بميزانية 1,200 دولار تشمل التصوير والتصاميم البصرية والترويج، وتُقاس أرقام الوصول والتفاعل الفعلية من تحليلات المنصات.</p></div>
-    </article>;
-
-    if (page === 7) return <article className="notebook-page page-plan">
-      {pageMark(page)}
-      <SectionKicker>خطة التنفيذ</SectionKicker>
-      <div className="page-heading-row"><h2>ثمانية أسابيع، <em>مخرج لكل أسبوع.</em></h2><p>لكل أسبوع مالك مسؤول ومهام محددة ومخرج قابل للتحقق.</p></div>
+      <SectionKicker>المنهجية والخطة</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">أربع ممارسات، <em>ثمانية أسابيع.</em></h2>
+      <div className="practice-chips">{practices.map(([num, title]) => <span key={num}><b>{num}</b>{title}</span>)}</div>
       <div className="notebook-plan-layout">
         <div className="notebook-week-tabs">{weeks.map((week, index) => <button className={activeWeek === index ? "is-active" : ""} onClick={() => setActiveWeek(index)} key={week[0]}><small>أسبوع</small><strong>{week[0]}</strong><i /></button>)}</div>
         <div className="notebook-week-detail">
           <div className="week-detail-top"><span>الأسبوع {weeks[activeWeek][0]} / 08</span><CalendarDays size={18} /></div>
           <h3>{weeks[activeWeek][1]}</h3>
-          <small className="week-owner-note">الجهة المسؤولة: {weeks[activeWeek][2]}</small>
+          <small className="week-owner-note">المسؤول: {weeks[activeWeek][2]}</small>
           <div className="week-task-list">{weeks[activeWeek][3].map((task) => <span key={task}><Check size={14} />{task}</span>)}</div>
-          <div className="week-output"><small>المخرج المتوقع</small><strong>{weeks[activeWeek][4]}</strong></div>
+          <div className="week-output"><small>المخرج</small><strong>{weeks[activeWeek][4]}</strong></div>
           <div className="week-arrows"><button onClick={() => setActiveWeek((activeWeek + weeks.length - 1) % weeks.length)}><ArrowRight size={14} /> السابق</button><button onClick={() => setActiveWeek((activeWeek + 1) % weeks.length)}>التالي <ArrowLeft size={14} /></button></div>
         </div>
       </div>
+      {nextLink(page)}
     </article>;
 
-    if (page === 8) return <article className="notebook-page page-practice">
+    if (page === 6) return <article className="notebook-page page-impact">
       {pageMark(page)}
-      <SectionKicker>المنهجية التشغيلية</SectionKicker>
-      <div className="page-heading-row"><h2>أربع ممارسات <em>قابلة للتدريب.</em></h2><p>الأدوات الأربع التي تُبنى عليها كل جلسة، وتُقاس في الاستبيان القبلي والبعدي.</p></div>
-      <div className="practice-book-list">{practices.map(([num, title, text]) => <div key={num}><span>{num}</span><div><strong>{title}</strong><p>{text}</p></div><Check size={15} /></div>)}</div>
-      <div className="method-steps">
-        <div className="method-steps-head"><Waypoints size={16} /><strong>التطبيق العملي للمستفيد</strong><span>ما يُطلب من المشارك بين جلسة وأخرى</span></div>
-        <div className="steps-book-row">{steps.map(([number, title, text, tag]) => <div key={number}><span>{number} · {tag}</span><strong>{title}</strong><p>{text}</p></div>)}</div>
-      </div>
+      <SectionKicker>الأثر والقياس</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">أربعة أهداف، <em>أربعة مؤشرات.</em></h2>
+      <div className="objective-cards">{objectives.map(([goal, , value, unit, verification, Icon], index) => <div className="objective-card" key={goal}>
+        <div className="objective-card-head"><span className="objective-index">{String(index + 1).padStart(2, "0")}</span><Icon size={17} /></div>
+        <strong className="objective-title">{goal}</strong>
+        <div className="objective-metric"><b>{value}</b><span>{unit}</span></div>
+        <div className="objective-verify"><Check size={12} />{verification}</div>
+      </div>)}</div>
+      <div className="impact-page-aside"><BarChart3 size={18} /><span>قياس قبلي (الأسبوع 3) وبعدي (الأسبوع 7) على المجموعة ذاتها، وتقرير ختامي بالفواتير في الأسبوع 8.</span></div>
+      {nextLink(page)}
     </article>;
 
-    if (page === 9) return <article className="notebook-page page-budget">
+    if (page === 7) return <article className="notebook-page page-budget">
       {pageMark(page)}
-      <SectionKicker>الميزانية التفصيلية</SectionKicker>
-      <div className="page-heading-row"><h2>4,000 دولار، <em>أربعة بنود.</em></h2><p>ميزانية شفافة موجهة للميدان، يُرفق صرفها بالفواتير في التقرير الختامي.</p></div>
+      <SectionKicker>الكلفة والعائد</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">4,000 دولار، <em>وكلفة 8$ للمستفيد.</em></h2>
+      <div className="cost-strip">{costEfficiency.slice(0, 3).map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       <div className="budget-book budget-book--full">
-        <div className="budget-title"><span>إجمالي الميزانية</span><strong>$4,000</strong><small>كل دولار له وظيفة محددة وموثقة.</small></div>
         {budgets.map(([label, amount, percent, note, color]) => <div className="budget-book-row" key={label}><div><strong>{label}</strong><b>${amount.toLocaleString("en-US")}</b></div><div className="budget-meter"><span className={color} style={{ width: percent }} /></div><small>{note} · {percent}</small></div>)}
-        <div className="budget-total-row"><strong>المجموع الكلي</strong><b>$4,000</b></div>
-        <button className="small-text-action" onClick={() => setModal("budget")}><Download size={14} /> اطلب ملخص الميزانية</button>
+        <div className="budget-total-row"><strong>المجموع</strong><b>$4,000</b></div>
       </div>
+      <button className="small-text-action" onClick={() => setModal("budget")}><Download size={14} /> تفاصيل الميزانية</button>
+      {nextLink(page)}
     </article>;
 
-    if (page === 10) return <article className="notebook-page page-cost">
+    if (page === 8) return <article className="notebook-page page-assurance">
       {pageMark(page)}
-      <SectionKicker>كفاءة التكلفة والعائد</SectionKicker>
-      <div className="page-heading-row"><h2>أثر مرتفع، <em>كلفة منخفضة.</em></h2><p>أرقام مشتقة حسابياً من الميزانية والمؤشرات المستهدفة.</p></div>
-      <div className="cost-grid">{costEfficiency.map(([value, label, note, Icon]) => <div className="cost-card" key={label}><Icon size={18} /><strong>{value}</strong><b>{label}</b><p>{note}</p></div>)}</div>
-      <div className="cost-compare-list">{costComparisons.map(([title, text]) => <div key={title}><TrendingUp size={15} /><div><strong>{title}</strong><p>{text}</p></div></div>)}</div>
-      <div className="page-margin-note">الأرقام أعلاه محسوبة من ميزانية 4,000$ ومؤشرات الأثر المعتمدة.</div>
-    </article>;
-
-    if (page === 11) return <article className="notebook-page page-risks">
-      {pageMark(page)}
-      <SectionKicker>إدارة المخاطر</SectionKicker>
-      <div className="page-heading-row"><h2>ستة مخاطر، <em>وإجراء لكل منها.</em></h2><p>المرونة الميدانية مصمّمة داخل الخطة، لا استجابة لاحقة للطوارئ.</p></div>
+      <SectionKicker>الضمانات</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">المرونة مصمَّمة <em>داخل الخطة.</em></h2>
       <div className="risk-table">
         <div className="risk-head"><span>الخطر</span><span>الاحتمالية</span><span>إجراء التخفيف</span></div>
-        {risks.map(([risk, level, mitigation]) => <div className="risk-row" key={risk}>
+        {risks.slice(0, 4).map(([risk, level, mitigation]) => <div className="risk-row" key={risk}>
           <div className="risk-name"><AlertTriangle size={14} /><strong>{risk}</strong></div>
           <div><span className={`risk-level risk-level--${level === "مرتفع" ? "high" : "mid"}`}>{level}</span></div>
           <p>{mitigation}</p>
         </div>)}
       </div>
+      <div className="assurance-strip">{sustainabilityPillars.slice(0, 3).map(([title, tag, , Icon]) => <div key={title}><Icon size={16} /><strong>{title}</strong><span>{tag}</span></div>)}</div>
+      {nextLink(page)}
     </article>;
 
-    if (page === 12) return <article className="notebook-page page-resilience">
-      {pageMark(page)}
-      <SectionKicker>الاستدامة وما بعد المشروع</SectionKicker>
-      <div className="resilience-heading"><h2>نترك وراءنا<br /><em>قدرة محلية.</em></h2><p>لا ينتهي أثر المبادرة بانتهاء التمويل الأول: أربع ركائز تضمن استمرار العمل بعد الأسبوع الثامن، بقيادة محلية وأصول معرفية تبقى متاحة.</p></div>
-      <div className="sustain-grid">{sustainabilityPillars.map(([title, tag, description, Icon]) => <div className="sustain-card" key={title}><div className="sustain-card-top"><Icon size={18} /><b>{tag}</b></div><strong>{title}</strong><p>{description}</p></div>)}</div>
-      <div className="page-margin-note">الاستدامة التزام مصمَّم، لا نتيجة عرضية.</div>
-    </article>;
-
-    if (page === 13) return <article className="notebook-page page-faq">
+    if (page === 9) return <article className="notebook-page page-faq">
       {pageMark(page)}
       <SectionKicker>الأسئلة الشائعة</SectionKicker>
-      <div className="page-heading-row"><h2>أسئلة الشركاء <em>والإجابات.</em></h2><p>الأسئلة التي تتكرر من المؤسسات المانحة والجهات الشريكة.</p></div>
+      {pageAsk(page)}
+      <h2 className="page-title">أسئلة الشركاء <em>والإجابات.</em></h2>
       <div className="faq-book-list">{faqs.map(([question, answer], index) => <div className={`faq-book-item ${activeFaq === index ? "is-open" : ""}`} key={question}><button onClick={() => setActiveFaq(activeFaq === index ? null : index)}>{question}{activeFaq === index ? <ChevronDown size={15} /> : <Plus size={15} />}</button>{activeFaq === index && <p>{answer}</p>}</div>)}</div>
+      {nextLink(page)}
     </article>;
 
     return <article className="notebook-page page-partnership">
       {pageMark(page)}
-      <SectionKicker>مستويات الشراكة</SectionKicker>
-      <div className="page-heading-row"><h2>أربع طرق <em>للشراكة.</em></h2><p>اختر المستوى الذي يناسب سياسة مؤسستك، أو تواصل معنا لتصميم صيغة مشتركة.</p></div>
+      <SectionKicker>الشراكة والتواصل</SectionKicker>
+      {pageAsk(page)}
+      <h2 className="page-title">أربع طرق <em>للشراكة.</em></h2>
       <div className="tiers-grid">{partnershipTiers.map(([name, amount, tag, benefits, tone]) => <div className={`tier-card tier-card--${tone}`} key={name}>
         <div className="tier-card-top"><small>{tag}</small><strong>{name}</strong><b>{amount}</b></div>
-        <ul>{benefits.map((benefit) => <li key={benefit}><Check size={13} />{benefit}</li>)}</ul>
+        <ul>{benefits.slice(0, 3).map((benefit) => <li key={benefit}><Check size={13} />{benefit}</li>)}</ul>
       </div>)}</div>
       <div className="partnership-cta">
-        <div><HeartHandshake size={17} /><p>لا تبحث المبادرة عن تمويل عابر، بل عن شراكة استراتيجية مع مؤسسات تؤمن بأن الاستثمار في الإنسان هو الضمانة الحقيقية لصمود المجتمع.</p></div>
+        <div><HeartHandshake size={17} /><p>الاستثمار في الإنسان هو الضمانة الحقيقية لصمود المجتمع.</p></div>
         <div className="join-page-buttons">
           <button className="notebook-primary" onClick={() => setModal("story")}>تواصل معنا <Send size={16} /></button>
           <button className="notebook-quiet" onClick={() => goPage(0)}>عد إلى الغلاف <ArrowUpLeft size={16} /></button>
@@ -502,6 +464,7 @@ export default function Home() {
       </div>
     </article>;
   };
+
 
   const renderStoryScene = () => {
     const scene = storyScenes[Math.min(currentPage, storyScenes.length - 1)];
@@ -535,7 +498,7 @@ export default function Home() {
   };
 
   const renderModal = () => {
-    if (modal === "guide") return <><div className="modal-symbol"><BookOpen size={22} /></div><SectionKicker>محاور المحتوى</SectionKicker><h2 id="modal-title">عشرة مقاطع<br /><em>بمنهجية واحدة.</em></h2><p>تُبنى المقاطع العشرة على الممارسات الأربع نفسها التي تُدرَّب في الجلسات الميدانية، ضمن مواقف يومية مألوفة داخل الخيام والمساحات الآمنة.</p><div className="modal-choices"><div><Check size={15} /> إصغاء قبل الحكم</div><div><Check size={15} /> شراكة في العمل اليومي</div><div><Check size={15} /> احتواء ومساحة للكلام</div><div><Check size={15} /> قدوة بالفعل لا بالوعظ</div></div><button className="notebook-primary modal-button" onClick={() => { setModal(null); goPage(14); }}>مستويات الشراكة <ArrowLeft size={17} /></button></>;
+    if (modal === "guide") return <><div className="modal-symbol"><Video size={22} /></div><SectionKicker>الحملة الرقمية</SectionKicker><h2 id="modal-title">عشرة مقاطع<br /><em>أقل من دقيقة.</em></h2><p>محتوى قصير قابل للمشاركة يوسّع أثر الجلسات إلى بيوت لم تحضرها، بميزانية 1,200 دولار ومستهدف 50,000 وصول.</p><div className="modal-episode-list">{episodes.map(([number, title, type, duration]) => <div key={number}><span>{number}</span><strong>{title}</strong><small>{type} · {duration}</small></div>)}</div><button className="notebook-primary modal-button" onClick={() => setModal(null)}>إغلاق <X size={16} /></button></>;
     if (modal === "budget") return <><div className="modal-symbol"><WalletCards size={22} /></div><SectionKicker>شفافية التمويل</SectionKicker><h2 id="modal-title">ميزانية 4,000<br /><em>دولار، بندًا بندًا.</em></h2><p>كل دولار في هذه المبادرة له وظيفة محددة ومُوثقة، وتُختتم بتقرير مالي نهائي يُسلَّم للشركاء.</p><div className="modal-budget-list">{budgets.map(([label, amount, percent, note]) => <div key={label}><div><strong>{label}</strong><b>${amount.toLocaleString("en-US")}</b></div><span>{note} · {percent}</span></div>)}</div><button className="notebook-primary modal-button" onClick={() => setModal(null)}>فهمت، إغلاق <X size={16} /></button></>;
     return <><div className="modal-symbol"><MessageCircle size={22} /></div><SectionKicker>التواصل والشراكة</SectionKicker><h2 id="modal-title">لنبدأ<br /><em>حواراً مؤسسياً.</em></h2><p>أرسل استفسارك أو مستوى الشراكة الذي يناسب مؤسستك، ويتواصل معك فريق المبادرة بملف تفصيلي وخطة تنفيذ مقترحة.</p><form className="story-form" onSubmit={(event) => { event.preventDefault(); setModal(null); }}><label>الاسم والمؤسسة <input required placeholder="مثلاً: أحمد خالد · مؤسسة الأمل للتنمية" /></label><label>مستوى الشراكة المقترح <input placeholder="تمويل كامل، تبنّي محور، دعم عيني..." /></label><label>رسالتك <textarea required rows={3} placeholder="اكتب استفسارك أو ما تودّ مناقشته" /></label><button className="notebook-primary modal-button" type="submit">أرسل الطلب <Send size={17} /></button></form></>;
   };
@@ -543,7 +506,7 @@ export default function Home() {
   const bookClass = `notebook-app ${nightMode ? "notebook-app--night" : ""} ${viewMode === "scroll" ? "notebook-app--scroll" : viewMode === "story" ? "notebook-app--story" : "notebook-app--book"}`;
   return <div className={bookClass} dir="rtl">
     <header className="notebook-header"><button className="notebook-brand" onClick={() => { setViewMode("book"); goPage(0); }}><span><img src={logoUrl} alt="" /></span><b>سند وعمار</b><small>قصة الرجولة الإيجابية</small></button><div className="notebook-view-switch"><span>طريقة العرض</span><button className={viewMode === "story" ? "active" : ""} onClick={() => setViewMode("story")}><Play size={15} /> قصة</button><button className={viewMode === "book" ? "active" : ""} onClick={() => setViewMode("book")}><BookOpen size={15} /> دفتر</button><button className={viewMode === "scroll" ? "active" : ""} onClick={() => setViewMode("scroll")}><FileText size={15} /> تمرير</button><button className="night-switch" onClick={() => setNightMode(!nightMode)}>{nightMode ? <Sun size={15} /> : <Moon size={15} />} {nightMode ? "نهار" : "ليل"}</button></div><button className="notebook-menu-button" aria-label="فتح القائمة" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={19} /> : <Menu size={19} />}</button></header>
-    {menuOpen && <nav className="notebook-menu"><button onClick={() => go("summary")}>الملخص التنفيذي</button><button onClick={() => go("objectives")}>الأهداف والأثر</button><button onClick={() => go("tracks")}>المسارات</button><button onClick={() => go("plan")}>خطة التنفيذ</button><button onClick={() => go("budget")}>الميزانية</button><button onClick={() => go("risks")}>إدارة المخاطر</button><button onClick={() => go("faq")}>الأسئلة الشائعة</button><button onClick={() => go("partnership")}>مستويات الشراكة <ArrowLeft size={15} /></button></nav>}
+    {menuOpen && <nav className="notebook-menu"><button onClick={() => go("problem")}>المشكلة</button><button onClick={() => go("solution")}>الحل</button><button onClick={() => go("tracks")}>المسارات</button><button onClick={() => go("plan")}>المنهجية والخطة</button><button onClick={() => go("impact")}>الأثر والقياس</button><button onClick={() => go("budget")}>الكلفة</button><button onClick={() => go("faq")}>الأسئلة الشائعة</button><button onClick={() => go("partnership")}>الشراكة <ArrowLeft size={15} /></button></nav>}
     {viewMode === "story" ? renderStoryScene() : viewMode === "book" ? <><div className="notebook-controls"><button onClick={() => setContentsOpen(true)}><BookOpen size={15} /> الفهرس</button><button disabled={spreadOf(currentPage) === 0} onClick={stepBackward}><ArrowRight size={15} /> السابق</button><span>{pairStartOf(currentPage) === 0 ? "صفحة 1" : `صفحتا ${pairStartOf(currentPage) + 1}-${pairStartOf(currentPage) + 2}`} / {pageTitles.length}</span><button disabled={spreadOf(currentPage) === maxSpread} onClick={stepForward}>التالي <ArrowLeft size={15} /></button></div><main className={`book-stage ${pairStartOf(currentPage) !== 0 ? "book-stage--spread" : ""}`} onPointerDown={handlePointerDown} onPointerUp={handlePointerUp}>{<div className={`page-turn page-turn--${turnDirection}`} key={pairStartOf(currentPage)}>{pairStartOf(currentPage) === 0 ? renderPage(0) : <div className="book-spread"><div className="book-spread-page">{renderPage(pairStartOf(currentPage))}</div><div className="book-spread-fold" /><div className="book-spread-page">{renderPage(pairStartOf(currentPage) + 1)}</div></div>}</div>}<div className="book-hint"><span>اسحب لقلب الصفحات</span><i>✦</i><span>أو استخدم الأسهم</span></div></main></> : <main className="scroll-stage">{pageTitles.map((_, index) => <section id={`scroll-${pageSlugs[index] ?? "cover"}`} key={index}>{renderPage(index)}</section>)}</main>}
     <footer className="notebook-footer"><span>صُنع بالاهتمام <HeartHandshake size={13} /></span><span>سند وعمار · غزة · 2026</span><button onClick={() => setModal("story")}><Mail size={13} /> تواصل معنا</button></footer>
     {contentsOpen && <div className="contents-overlay" onClick={() => setContentsOpen(false)}><div className="contents-card" onClick={(event) => event.stopPropagation()}><button className="contents-close" onClick={() => setContentsOpen(false)}><X size={17} /></button><SectionKicker>فهرس الدفتر</SectionKicker><h2>خيط واحد،<br /><em>فصول كثيرة.</em></h2><div>{pageTitles.map((title, index) => <button key={title} onClick={() => { setContentsOpen(false); goPage(index); }}><span>{String(index + 1).padStart(2, "0")}</span><strong>{title}</strong><ArrowLeft size={15} /></button>)}</div></div></div>}
