@@ -406,14 +406,12 @@ export default function Home() {
           <div className="cover-line" />
           <div className="cover-figures">
             <div><strong>{N.directBeneficiaries}</strong><span>مستفيدًا مباشرًا</span></div>
-            <div><strong>{N.costPerBeneficiary}$</strong><span>للمستفيد</span></div>
             <div><strong>0{N.weeks}</strong><span>أسابيع</span></div>
           </div>
           <button className="notebook-primary" onClick={() => goPage(pageRoutes.platform)}>ادخل إلى المنصة <ArrowLeft size={17} /></button>
         </div>
         <div className="cover-visual">
           <img src={heroImage} alt="أب وطفل داخل مخيم نزوح في غزة" />
-          <div className="cover-stamp"><span>الكلفة</span><strong>{N.costPerBeneficiary}$ للمستفيد</strong><i>✦</i></div>
           <small>مبادرة مجتمعية · قطاع غزة</small>
         </div>
       </div>
