@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -16,13 +16,16 @@ function Router() {
       <Route path={"/gap"} component={Home} />
       <Route path={"/solution"} component={Home} />
       <Route path={"/mechanism"} component={Home} />
-      <Route path={"/tracks"} component={Home} />
+      <Route path={"/phases"} component={Home} />
+      <Route path={"/platform"} component={Home} />
       <Route path={"/plan"} component={Home} />
       <Route path={"/impact"} component={Home} />
       <Route path={"/budget"} component={Home} />
       <Route path={"/assurance"} component={Home} />
       <Route path={"/faq"} component={Home} />
       <Route path={"/partnership"} component={Home} />
+      {/* المسارات الثلاثة لم تعد جزءاً من التصميم؛ الروابط القديمة تُحوَّل إلى المراحل الأربع. */}
+      <Route path={"/tracks"}>{() => <Redirect to="/phases" replace />}</Route>
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
